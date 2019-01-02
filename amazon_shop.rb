@@ -21,6 +21,25 @@ class Amazon_shop
 		puts"Your item is #{item_array["Product_Name"]}and Quantity is:#{item_array["quantity"]} and Total :#{item_array["Total"]}"		
 		@@result_array.push(item_array)
 	end
+	def duplication_check2(result_array)
+		temp_result=Array.new
+		result_array.each do |record|
+			flag=0
+				temp_result.each do |temp_record|
+					if record["Product_Category"] == temp_record["Product_Category"] && record["Product_Name"] == temp_record["Product_Name"] then
+						temp_record["quantity"] += record["quantity"]
+						temp_record["Total"] += record["Total"]
+						flag=1
+					end
+				end
+				if flag == 0
+					temp_result.push(record)
+				end
+			end	
+
+			#printf "Ans: %s",temp_result
+			return temp_result
+	end
 	def electronics_main
 		electronics_items=Array[{"name":"Mobile","price":10000},{"name":"Laptop","price":30000},{"name":"Mouse","price":120},{"name":"Mobail Charger","price":300}]
 		puts "========================="
@@ -110,13 +129,14 @@ class Amazon_shop
 		duplication_check({"Product_Category"=>@@category[4],"Product_Name"=>toy_items[(item_choice.to_i)-1][:name],"Product_Price"=>toy_items[(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
 		
 	end
-	def display_detail
+	def display_detail()
+		temp_result=duplication_check2(@@result_array)
 		puts"==============================================================================="
 		puts"Amazon Shop \t\t\t\t\t\t Customer:#{@@user_name.capitalize}\n\n"
 		puts"Product Category\tProduct Name\tProduct Price\tQuantity\tTotal"
 		puts"----------------\t------------\t-------------\t--------\t-----"
 		
-		@@result_array.each do |result_item|
+		temp_result.each do |result_item|
 
 				printf "%-25s %-18s %-14d %-11d %-11d \n",result_item["Product_Category"],result_item["Product_Name"],result_item["Product_Price"],result_item["quantity"],result_item["Total"]
 
@@ -136,6 +156,7 @@ class Amazon_shop
 		end
 		puts "6.Exit!!!!\n\n"
 
+
 		puts "Enter Choice No:"
 		@category_no=gets.chomp
 		case (@category_no.to_i)
@@ -150,8 +171,7 @@ class Amazon_shop
 			footwear_main()
 		when 5
 			toy_main()
-		when 6
-			puts @@result_array
+		when 6			
 			display_detail()
 			exit
 		else
