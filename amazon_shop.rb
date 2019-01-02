@@ -1,7 +1,16 @@
 class Amazon_shop
 		@@user_name
 		@@amount=0
-		@@category=Array["Electronics","Appliance","Clothing","Footwear","Toys"]
+		#@@category=Array["Electronics","Appliance","Clothing","Footwear","Toys"]
+		@@category_keys=[]
+		@@category=
+			{
+				"Electronics"=>[{"name":"Mobile","price":10000},{"name":"Laptop","price":30000},{"name":"Mouse","price":120},{"name":"Mobail Charger","price":300}],
+				"Appliance"=>[{"name":"Mixer Grinder","price":10000},{"name":"Water Purifiers","price":20000},{"name":"Induction Cooktops","price":1000},{"name":"Microwaves","price":12000},{"name":"Dishwashers","price":100000}],
+				"Clothing"=>[{"name":"Blue Jeans","price":800},{"name":"Black T-Shirt","price":400},{"name":"Ring Beanie Cap","price":300},{"name":"SkyBlue Shirt","price":600},{"name":"FormalMen's Blazer","price":2000}],
+				"Footwear"=>[{"name":"Sport Shoes","price":2000},{"name":"Formal Shoes","price":1000},{"name":"Casual Shoes","price":1000},{"name":"Sandal","price":700},{"name":"Slipper","price":300}],
+				"Toys"=>[{"name":"Racing car","price":4000},{"name":"Flying Helicopter","price":5000},{"name":"Dancing Robot","price":3500},{"name":"Toy-superman","price":1200},{"name":"Rose Teddy Bear","price":1000}]
+			}
 		@@result_array=Array.new
 	def get_user_detail #get user info==========================================
 		puts "Enter user name:"
@@ -22,7 +31,7 @@ class Amazon_shop
 		@@result_array.push(item_array)
 	end
 	def duplication_check2(result_array)
-		temp_result=Array.new
+		temp_result=[]
 		result_array.each do |record|
 			flag=0
 				temp_result.each do |temp_record|
@@ -41,64 +50,66 @@ class Amazon_shop
 			return temp_result
 	end
 	def electronics_main
-		electronics_items=Array[{"name":"Mobile","price":10000},{"name":"Laptop","price":30000},{"name":"Mouse","price":120},{"name":"Mobail Charger","price":300}]
+		#electronics_items=[{"name":"Mobile","price":10000},{"name":"Laptop","price":30000},{"name":"Mouse","price":120},{"name":"Mobail Charger","price":300}]
 		puts "========================="
 		printf"%-20s %s \n","Product Name","Product Price"
-		electronics_items.each do |item|
-			printf"%-20s %d \n",item[:name],item[:price].to_i
+		@@category["Electronics"].each.with_index do |item,index|
+			#item.each do |key,value|
+			printf"%d %s %-20s %d \n",index+1,".",item[:name],item[:price]	
+			#puts "#{}"
 		end
 		puts"----------------------------"
 		puts"Enter choice No:"
 		item_choice=gets.chomp
 		puts"Eneter Quantity:"
 		quantity=gets.chomp
-		total=electronics_items[(item_choice.to_i)-1][:price]*quantity.to_i
+		total=@@category["Electronics"][(item_choice.to_i)-1][:price]*quantity.to_i
 
-		duplication_check({"Product_Category"=>@@category[0],"Product_Name"=>electronics_items[(item_choice.to_i)-1][:name],"Product_Price"=>electronics_items[(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
+		duplication_check({"Product_Category"=>@@category_keys[0],"Product_Name"=>@@category["Electronics"][(item_choice.to_i)-1][:name],"Product_Price"=>@@category["Electronics"][(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
 
 	end
 	def appliance_main
 		#item_array=Hash.new
-		appliance_items=Array[{"name":"Mixer Grinder","price":10000},{"name":"Water Purifiers","price":20000},{"name":"Induction Cooktops","price":1000},{"name":"Microwaves","price":12000},{"name":"Dishwashers","price":100000}]
+		#appliance_items=[{"name":"Mixer Grinder","price":10000},{"name":"Water Purifiers","price":20000},{"name":"Induction Cooktops","price":1000},{"name":"Microwaves","price":12000},{"name":"Dishwashers","price":100000}]
 		puts"==========================="
 		printf"%-20s %s \n","Product Name","Product Price"
-		appliance_items.each do |item|
-			printf"%-20s %d \n",item[:name],item[:price]
+		@@category["Appliance"].each.with_index do |item,index|
+			printf"%d %s %-20s %d \n",index+1,".",item[:name],item[:price]
 		end
 		puts"----------------------------"
 		puts"Enter choice No:"
 		item_choice=gets.chomp
 		puts"Eneter Quantity:"
 		quantity=gets.chomp
-		total=appliance_items[(item_choice.to_i)-1][:price]*quantity.to_i
+		total=@@category["Appliance"][(item_choice.to_i)-1][:price]*quantity.to_i
 	
-		duplication_check({"Product_Category"=>@@category[1],"Product_Name"=>appliance_items[(item_choice.to_i)-1][:name],"Product_Price"=>appliance_items[(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
-	
+		#duplication_check({"Product_Category"=>@@category[1],"Product_Name"=>appliance_items[(item_choice.to_i)-1][:name],"Product_Price"=>appliance_items[(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
+		duplication_check({"Product_Category"=>@@category_keys[1],"Product_Name"=>@@category["Appliance"][(item_choice.to_i)-1][:name],"Product_Price"=>@@category["Appliance"][(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
 	end
 	def cloth_main
 		#item_array=Hash.new
-		cloth_items=Array[{"name":"Blue Jeans","price":800},{"name":"Black T-Shirt","price":400},{"name":"Ring Beanie Cap","price":300},{"name":"SkyBlue Shirt","price":600},{"name":"FormalMen's Blazer","price":2000}]
+		#cloth_items=[{"name":"Blue Jeans","price":800},{"name":"Black T-Shirt","price":400},{"name":"Ring Beanie Cap","price":300},{"name":"SkyBlue Shirt","price":600},{"name":"FormalMen's Blazer","price":2000}]
 		puts"==========================="
 		printf"%-20s %s \n","Product Name","Product Price"
-		cloth_items.each do |item|
-			printf"%-20s %d \n",item[:name],item[:price]
+		@@category["Clothing"].each.with_index do |item,index|
+			printf"%d %s %-20s %d \n",index+1,".",item[:name],item[:price]
 		end
 		puts"----------------------------"
 		puts"Enter choice No:"
 		item_choice=gets.chomp
 		puts"Eneter Quantity:"
 		quantity=gets.chomp
-		total=cloth_items[(item_choice.to_i)-1][:price]*quantity.to_i
+		total=@@category["Clothing"][(item_choice.to_i)-1][:price]*quantity.to_i
 	
-		duplication_check({"Product_Category"=>@@category[2],"Product_Name"=>cloth_items[(item_choice.to_i)-1][:name],"Product_Price"=>cloth_items[(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
-	
+		#duplication_check({"Product_Category"=>@@category[2],"Product_Name"=>cloth_items[(item_choice.to_i)-1][:name],"Product_Price"=>cloth_items[(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
+		duplication_check({"Product_Category"=>@@category_keys[2],"Product_Name"=>@@category["Clothing"][(item_choice.to_i)-1][:name],"Product_Price"=>@@category["Clothing"][(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
 	end
 	def footwear_main
 		#item_array=Hash.new
-			footwear_items=Array[{"name":"Sport Shoes","price":2000},{"name":"Formal Shoes","price":1000},{"name":"Casual Shoes","price":1000},{"name":"Sandal","price":700},{"name":"Slipper","price":300}]
+			#footwear_items=[{"name":"Sport Shoes","price":2000},{"name":"Formal Shoes","price":1000},{"name":"Casual Shoes","price":1000},{"name":"Sandal","price":700},{"name":"Slipper","price":300}]
 		puts"==========================="
 		printf"%-20s %s \n","Product Name","Product Price"
-		footwear_items.each do |item|
+		@@category["Footwear"].each do |item|
 			printf"%-20s %d \n",item[:name],item[:price]
 		end
 		puts"----------------------------"
@@ -106,28 +117,28 @@ class Amazon_shop
 		item_choice=gets.chomp
 		puts"Eneter Quantity:"
 		quantity=gets.chomp
-		total=footwear_items[(item_choice.to_i)-1][:price]*quantity.to_i
+		total=@@category["Footwear"][(item_choice.to_i)-1][:price]*quantity.to_i
 		
-		duplication_check({"Product_Category"=>@@category[3],"Product_Name"=>footwear_items[(item_choice.to_i)-1][:name],"Product_Price"=>footwear_items[(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
-	
+		#duplication_check({"Product_Category"=>@@category[3],"Product_Name"=>footwear_items[(item_choice.to_i)-1][:name],"Product_Price"=>footwear_items[(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
+		duplication_check({"Product_Category"=>@@category_keys[3],"Product_Name"=>@@category["Footwear"][(item_choice.to_i)-1][:name],"Product_Price"=>@@category["Footwear"][(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
 	end
 	def toy_main
 		#item_array=Hash.new
-		toy_items=Array[{"name":"Racing car","price":4000},{"name":"Flying Helicopter","price":5000},{"name":"Dancing Robot","price":3500},{"name":"Toy-superman","price":1200},{"name":"Rose Teddy Bear","price":1000}]
+		#toy_items=[{"name":"Racing car","price":4000},{"name":"Flying Helicopter","price":5000},{"name":"Dancing Robot","price":3500},{"name":"Toy-superman","price":1200},{"name":"Rose Teddy Bear","price":1000}]
 		puts"==========================="
 		printf"%-20s %s \n","Product Name","Product Price"
-		toy_items.each do |item|
-			printf"%-20s %d \n",item[:name],item[:price]
+		@@category["Toys"].each.with_index do |item,index|
+			printf"%d %s %-20s %d \n",index+1,".",item[:name],item[:price]
 		end
 		puts"----------------------------"
 		puts"Enter choice No:"
 		item_choice=gets.chomp
 		puts"Eneter Quantity:"
 		quantity=gets.chomp
-		total=toy_items[(item_choice.to_i)-1][:price]*quantity.to_i
+		total=@@category["Toys"][(item_choice.to_i)-1][:price]*quantity.to_i
 
-		duplication_check({"Product_Category"=>@@category[4],"Product_Name"=>toy_items[(item_choice.to_i)-1][:name],"Product_Price"=>toy_items[(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
-		
+		#duplication_check({"Product_Category"=>@@category[4],"Product_Name"=>toy_items[(item_choice.to_i)-1][:name],"Product_Price"=>toy_items[(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
+		duplication_check({"Product_Category"=>@@category_keys[4],"Product_Name"=>@@category["Toys"][(item_choice.to_i)-1][:name],"Product_Price"=>@@category["Toys"][(item_choice.to_i)-1][:price],"quantity"=>quantity.to_i,"Total"=>total,"amount"=>(@@amount+=total)})
 	end
 	def display_detail()
 		temp_result=duplication_check2(@@result_array)
@@ -136,9 +147,9 @@ class Amazon_shop
 		puts"Product Category\tProduct Name\tProduct Price\tQuantity\tTotal"
 		puts"----------------\t------------\t-------------\t--------\t-----"
 		
-		temp_result.each do |result_item|
-
-				printf "%-25s %-18s %-14d %-11d %-11d \n",result_item["Product_Category"],result_item["Product_Name"],result_item["Product_Price"],result_item["quantity"],result_item["Total"]
+		temp_result.each.with_index do |result_item,index|
+			flag=0
+				printf "%d %s %-20s %-18s %-14d %-11d %-11d \n",index+1,".",result_item["Product_Category"],result_item["Product_Name"],result_item["Product_Price"],result_item["quantity"],result_item["Total"]
 
 		end
 	
@@ -151,9 +162,17 @@ class Amazon_shop
 		
 	
 		puts "==============="
+		
+		@@category_keys=@@category.keys
+		@@category_keys.each.with_index do |item, index|
+			puts "#{index+1}.#{item}"
+		end
+
+=begin
 		for i in 0...@@category.length
 		puts "#{i+1}.#{@@category[i]}"
 		end
+=end	
 		puts "6.Exit!!!!\n\n"
 
 
